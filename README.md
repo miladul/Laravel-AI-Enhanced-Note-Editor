@@ -33,9 +33,7 @@ composer install
 ```
 ### 3. Create Environment File
 #### Create a copy of .env.example and rename it to .env:
-```
-composer install
-```
+
 ### 5. Generate Application Key
 ```
 php artisan key:generate
