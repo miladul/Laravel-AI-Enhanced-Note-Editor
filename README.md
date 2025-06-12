@@ -34,15 +34,15 @@ composer install
 ### 3. Create Environment File
 #### Create a copy of .env.example and rename it to .env:
 
-### 5. Generate Application Key
+### 4. Generate Application Key
 ```
 php artisan key:generate
 ```
-### 6. Run Migrations
+### 5. Run Migrations
 ```
 php artisan migrate
 ```
-### 7. Generate PASSPORT_CLIENT_ID & PASSPORT_CLIENT_SECRET
+### 6. Generate PASSPORT_CLIENT_ID & PASSPORT_CLIENT_SECRET
 ```
 php artisan passport:client --password
 
@@ -55,14 +55,14 @@ Client secret: xxxxxxxxxxxxxxxxx
 PASSPORT_CLIENT_ID=your-passport-client-id
 PASSPORT_CLIENT_SECRET=your-passport-client-secret
 ```
-### 8. google OAuth information add on (.env file)
+### 7. google OAuth information add on (.env file)
 ```
 # Google OAuth
 GOOGLE_CLIENT_ID=your-google-client-id
 GOOGLE_CLIENT_SECRET=your-google-client-secret
 GOOGLE_REDIRECT_URI=https://example.com/auth/google/callback
 ```
-### 9. set open AI API Key
+### 8. set open AI API Key
 ```
 # OpenAI
 OPENAI_API_KEY=your-openai-api-key
