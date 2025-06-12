@@ -23,6 +23,7 @@
         "vite": "^6.2.4"
     },
     "dependencies": {
+        "lodash": "^4.17.21",
         "react-hot-toast": "^2.5.2"
     }
 }

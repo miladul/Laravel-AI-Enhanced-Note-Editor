@@ -71,6 +71,7 @@ class GoogleController extends Controller
         $data = json_decode($content, true);
         $accessToken = $data['access_token'] ?? null;
         session(['access_token' => $accessToken]);
+        session(['user_id' => $user->id]);
 
         return redirect()->route('dashboard')->with('token', $accessToken);
     }

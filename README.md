@@ -67,3 +67,22 @@ GOOGLE_REDIRECT_URI=https://example.com/auth/google/callback
 # OpenAI
 OPENAI_API_KEY=your-openai-api-key
 ```
+
+### 10. install npm
+```
+npm install
+```
+
+### 11. npm run
+```
+npm run dev
+
+or 
+
+npm run build
+```
+
+### 12. Run server
+```
+php artisan serve
+```

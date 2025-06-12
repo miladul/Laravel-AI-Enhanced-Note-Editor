@@ -27,7 +27,8 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
         setErrors({});
 
         try {
-            await axios.put('/profile', data);
+            //await axios.put('/profile', data);
+            await axios.post('/profile_update.php', data);
             toast.success('Profile updated successfully!');
             setData((prev) => ({
                 ...prev,

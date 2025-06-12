@@ -26,51 +26,70 @@ export default function AIEditor() {
                 return;
         }
 
-        const response = await fetch("https://api.openai.com/v1/chat/completions", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${openai_api_key}`, // Replace this with your real key or securely store it in .env
-            },
-            body: JSON.stringify({
-                model: "gpt-4.1-nano-2025-04-14",
-                messages: [{ role: "user", content: prompt }],
-                stream: true,
-            }),
-        });
+        try {
+            const response = await fetch("https://api.openai.com/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${openai_api_key}`,
+                },
+                body: JSON.stringify({
+                    model: "gpt-4.1-nano-2025-04-14",
+                    messages: [{ role: "user", content: prompt }],
+                    stream: true,
+                }),
+            });
 
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder("utf-8");
-        let result = '';
-        let done = false;
+            if (!response.ok) {
+                const errorText = await response.text();
 
-        while (!done) {
-            const { value, done: doneReading } = await reader.read();
-            done = doneReading;
-            const chunk = decoder.decode(value, { stream: true });
-
-            const lines = chunk.split("\n").filter(line => line.startsWith("data:"));
-            for (const line of lines) {
-                const json = line.replace(/^data:\s*/, "");
-                if (json === "[DONE]") {
-                    done = true;
-                    break;
-                }
+                // Try to extract the error message from the response
                 try {
-                    const parsed = JSON.parse(json);
-                    const content = parsed.choices?.[0]?.delta?.content;
-                    if (content) {
-                        result += content;
-                        setAIResponse('AI: ' + result);
-                    }
-                } catch (err) {
-                    console.error("Error parsing:", err);
+                    const errorJson = JSON.parse(errorText);
+                    const apiMessage = errorJson.error?.message || "Unknown error from API.";
+                    throw new Error(apiMessage);
+                } catch (parseErr) {
+                    throw new Error(`API Error: ${response.status} - ${errorText}`);
                 }
             }
-        }
 
-        setLoading(false);
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder("utf-8");
+            let result = '';
+            let done = false;
+
+            while (!done) {
+                const { value, done: doneReading } = await reader.read();
+                done = doneReading;
+                const chunk = decoder.decode(value, { stream: true });
+
+                const lines = chunk.split("\n").filter(line => line.startsWith("data:"));
+                for (const line of lines) {
+                    const json = line.replace(/^data:\s*/, "");
+                    if (json === "[DONE]") {
+                        done = true;
+                        break;
+                    }
+                    try {
+                        const parsed = JSON.parse(json);
+                        const content = parsed.choices?.[0]?.delta?.content;
+                        if (content) {
+                            result += content;
+                            setAIResponse('AI: ' + result);
+                        }
+                    } catch (err) {
+                        console.error("Error parsing chunk:", err);
+                    }
+                }
+            }
+        } catch (error) {
+            console.error("API call failed:", error);
+            setAIResponse(`❌ Error: ${error.message}`);
+        } finally {
+            setLoading(false);
+        }
     };
+
 
     return (
         <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-md">
