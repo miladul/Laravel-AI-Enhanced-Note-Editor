@@ -12,6 +12,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     const user = auth.user;
 
     const [data, setData] = useState({
+        user_id: window.authUserId,
         name: user?.name || '',
         email: user?.email || '',
         password: '',
@@ -29,7 +30,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
         try {
             //await axios.put('/profile', data);
             await axios.post('/profile_update.php', data);
-            toast.success('Profile updated successfully!');
+            toast.success('Profile updated successfully by Raw PHP!');
             setData((prev) => ({
                 ...prev,
                 password: '',

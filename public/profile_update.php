@@ -10,9 +10,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+// Get raw input
+$data = json_decode(file_get_contents('php://input'), true);
+
+
+
 // Simulate logged-in user ID (replace with session or token logic)
-session_start();
-$user_id = $_SESSION['user_id'] ?? null;
+//session_start();
+$user_id = (int) ($data['user_id'] ?? 0); // or from JSON body
 
 if (!$user_id) {
     http_response_code(403);
@@ -20,8 +25,7 @@ if (!$user_id) {
     exit;
 }
 
-// Get raw input
-$data = json_decode(file_get_contents('php://input'), true);
+
 
 // Validate input
 $errors = [];
@@ -69,6 +73,8 @@ $name = $mysqli->real_escape_string($data['name']);
 $email = $mysqli->real_escape_string($data['email']);
 $updated_at = date('Y-m-d H:i:s');
 
+
+
 if ($updatePassword) {
     $hashedPassword = password_hash($data['password'], PASSWORD_BCRYPT);
     $sql = "UPDATE users
@@ -80,7 +86,19 @@ if ($updatePassword) {
             WHERE id = $user_id";
 }
 
+/*echo "<pre>";
+print_r($sql);
+die;*/
+
+
 if ($mysqli->query($sql)) {
+    if ($mysqli->affected_rows > 0) {
+        echo json_encode(['message' => 'Profile updated successfully']);
+    } else {
+        echo json_encode(['message' => 'Nothing was changed']);
+    }
+
+
     echo json_encode(['message' => 'Profile updated successfully']);
 } else {
     http_response_code(500);

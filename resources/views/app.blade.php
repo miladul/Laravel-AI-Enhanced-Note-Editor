@@ -29,4 +29,5 @@
     window.OPENAI_API_KEY = "{{ env('OPENAI_API_KEY') }}";
     window.avatar = "{{ auth()->user()->avatar??null }}";
     window.auth_user = "{{ auth()->user()??null }}";
+    window.authUserId = {{ auth()->id() }};
 </script>

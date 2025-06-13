@@ -86,3 +86,11 @@ npm run build
 ```
 php artisan serve
 ```
+### 13. Profile update by Raw PHP
+#### create a php file in public path 
+public/profile_update.php
+
+use it on UpdateProfileInformation.jsx's submit handler
+```
+await axios.post('/profile_update.php', data);
+```
