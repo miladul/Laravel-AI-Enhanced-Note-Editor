@@ -21,9 +21,8 @@ Follow the steps below to set up and run this project locally.
 
 ### 1. Clone the Repository
 
-```bash
+```
 git clone https://github.com/miladul/Laravel-AI-Enhanced-Note-Editor.git
-cd your-project
 
 ```
 
