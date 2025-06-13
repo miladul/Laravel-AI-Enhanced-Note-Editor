@@ -37,12 +37,26 @@ composer install
 ```
 php artisan key:generate
 ```
-### 5. Run Migrations
+### 5. Set Batabase connection and Run Migrations
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=your_database
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
 ```
 php artisan migrate
 ```
 ### 6. Generate PASSPORT_CLIENT_ID & PASSPORT_CLIENT_SECRET
+
+Run the following commands:
 ```
+php artisan passport:keys
+
+and
+
 php artisan passport:client --password
 
 Password grant client created successfully.
