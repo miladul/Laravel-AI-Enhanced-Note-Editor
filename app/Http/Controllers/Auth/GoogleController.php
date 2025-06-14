@@ -31,7 +31,7 @@ class GoogleController extends Controller
 
         $tempPassword = Hash::make('p@ssw0rd#');
 
-// Check if user exists
+        // Check if user exists
         $user = User::where('email', $googleUser->getEmail())->first();
 
         if ($user) {
