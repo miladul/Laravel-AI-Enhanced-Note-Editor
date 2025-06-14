@@ -29,19 +29,29 @@ class GoogleController extends Controller
             ->setHttpClient($guzzleClient)
             ->user();
 
+        $tempPassword = Hash::make('p@ssw0rd#');
 
-        $randomNumber = substr(str_shuffle(str_repeat('0123456789', 6)), 0, 6);
-        $password = Hash::make($randomNumber);
+// Check if user exists
+        $user = User::where('email', $googleUser->getEmail())->first();
 
-        $user = User::updateOrCreate(
-            ['email' => $googleUser->getEmail()],
-            [
+        if ($user) {
+            // Update only name, google_id, and avatar
+            $user->update([
                 'name' => $googleUser->getName(),
                 'google_id' => $googleUser->getId(),
                 'avatar' => $googleUser->getAvatar(),
-                'password' => $password,
-            ]
-        );
+            ]);
+        } else {
+            // Create new user with generated password
+            $user = User::create([
+                'email' => $googleUser->getEmail(),
+                'name' => $googleUser->getName(),
+                'google_id' => $googleUser->getId(),
+                'avatar' => $googleUser->getAvatar(),
+                'password' => $tempPassword,
+            ]);
+        }
+
 
         auth()->login($user);
 
