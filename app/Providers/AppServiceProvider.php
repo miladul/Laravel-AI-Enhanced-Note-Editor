@@ -2,10 +2,13 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Client;
 use Laravel\Passport\Passport;
+use Laravel\Passport\Token;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +27,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Vite::prefetch(concurrency: 3);
 
+        //Passport::loadKeysFrom(__DIR__.'/../secrets/oauth');
+
+        //Passport::useClientModel(Client::class);
         Passport::enablePasswordGrant();
         Passport::tokensExpireIn(CarbonInterval::days(15));
         Passport::refreshTokensExpireIn(CarbonInterval::days(30));

@@ -57,11 +57,12 @@ php artisan passport:keys
 
 and
 
-php artisan passport:client --password
+php artisan passport:client --personal
 
-Password grant client created successfully.
 Client ID: x
 Client secret: xxxxxxxxxxxxxxxxx
+
+find from oauth_clients table in you database
 
 //add in (.env file)
 #laravel passport info
