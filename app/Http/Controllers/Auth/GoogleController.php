@@ -32,7 +32,10 @@ class GoogleController extends Controller
         $tempPassword = Hash::make('p@ssw0rd#');
 
         // Check if user exists
-        $user = User::where('email', $googleUser->getEmail())->first();
+        $user = User::where([
+            'email'=> $googleUser->getEmail(),
+            'google_id'=> $googleUser->getId()
+        ])->first();
 
         if ($user) {
             // Update only name, google_id, and avatar
@@ -51,7 +54,6 @@ class GoogleController extends Controller
                 'password' => $tempPassword,
             ]);
         }
-
 
         auth()->login($user);
 
