@@ -59,15 +59,6 @@ and
 
 php artisan passport:client --personal
 
-Client ID: x
-Client secret: xxxxxxxxxxxxxxxxx
-
-find from oauth_clients table in you database
-
-//add in (.env file)
-#laravel passport info
-PASSPORT_CLIENT_ID=your-passport-client-id
-PASSPORT_CLIENT_SECRET=your-passport-client-secret
 ```
 ### 7. google OAuth information add on (.env file)
 ```
